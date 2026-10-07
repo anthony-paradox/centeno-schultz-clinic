@@ -1,8 +1,7 @@
 import { DatabaseSync } from "node:sqlite";
 import type { SessionDriver } from "astro";
 import { Pool } from "pg";
-
-const strip = (value: string | undefined) => value?.replace(/^"|"$/g, "");
+import { supabaseConnectionString } from "../db/supabase-url.ts";
 
 let pool: Pool | undefined;
 let postgresReady: Promise<unknown> | undefined;
@@ -42,7 +41,7 @@ function sqliteDatabase(): DatabaseSync {
 export default function postgresSessionDriver(): SessionDriver {
 	return {
 		async getItem(key) {
-			const connectionString = strip(process.env.DATABASE_URL);
+			const connectionString = supabaseConnectionString();
 			if (connectionString) {
 				const db = await postgresDatabase(connectionString);
 				const result = await db.query<{ value: string }>(
@@ -59,7 +58,7 @@ export default function postgresSessionDriver(): SessionDriver {
 		},
 		async setItem(key, value) {
 			const serialized = typeof value === "string" ? value : JSON.stringify(value);
-			const connectionString = strip(process.env.DATABASE_URL);
+			const connectionString = supabaseConnectionString();
 			if (connectionString) {
 				const db = await postgresDatabase(connectionString);
 				await db.query(
@@ -76,7 +75,7 @@ export default function postgresSessionDriver(): SessionDriver {
 				.run(key, serialized, Date.now());
 		},
 		async removeItem(key) {
-			const connectionString = strip(process.env.DATABASE_URL);
+			const connectionString = supabaseConnectionString();
 			if (connectionString) {
 				const db = await postgresDatabase(connectionString);
 				await db.query("DELETE FROM _astro_sessions WHERE id = $1", [key]);

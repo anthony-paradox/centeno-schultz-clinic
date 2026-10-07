@@ -5,8 +5,9 @@ import icon from "astro-iconset";
 import { defineConfig, fontProviders } from "astro/config";
 import emdash from "emdash/astro";
 import { postgres, sqlite } from "emdash/db";
+import { supabaseConnectionString } from "./src/db/supabase-url.ts";
 
-const databaseUrl = process.env.DATABASE_URL?.replace(/^"|"$/g, "");
+const databaseUrl = supabaseConnectionString();
 const blobStorageEntry = fileURLToPath(
 	new URL("./src/storage/vercel-blob.ts", import.meta.url),
 ).replaceAll("\\", "/");
@@ -54,7 +55,7 @@ export default defineConfig({
 				? postgres({
 						connectionString: databaseUrl,
 						pool: { min: 0, max: 1 },
-						migrationConnectionStringEnv: "DATABASE_URL",
+						migrationConnectionStringEnv: "POSTGRES_URL_NON_POOLING",
 					})
 				: sqlite({ url: "file:./data.db" }),
 			storage: {
