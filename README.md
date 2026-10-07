@@ -1,59 +1,57 @@
-# EmDash Marketing Template
+# Centeno-Schultz Clinic
 
-A conversion-focused landing page template built with [EmDash](https://github.com/emdash-cms/emdash). Runs on any Node.js server with SQLite and local file storage. Modular content blocks let you assemble pages from reusable sections without touching code.
+EmDash site for the Centeno-Schultz Clinic. Astro renders the clinic header, footer, and landing page. Content lives in the database. The deployed site is [https://centeno-schultz-clinic-staging.vercel.app/](https://centeno-schultz-clinic-staging.vercel.app/).
 
-![Marketing template homepage](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/marketing/latest/homepage-light-desktop.jpg)
+Package manager is bun.
 
-## What's Included
-
-- Hero section with CTAs
-- Feature grid
-- Testimonials
-- Pricing cards
-- FAQ accordion
-- Contact page with direct email links
-- SEO metadata and JSON-LD
-- Dark/light mode
-
-## Pages
-
-| Page | Route |
-|---|---|
-| Homepage | `/` |
-| Pricing | `/pricing` |
-| Contact | `/contact` |
-| 404 | fallback |
-
-## Screenshots
-
-| | Desktop | Mobile |
-|---|---|---|
-| Light | ![homepage light desktop](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/marketing/latest/homepage-light-desktop.jpg) | ![homepage light mobile](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/marketing/latest/homepage-light-mobile.jpg) |
-| Dark | ![homepage dark desktop](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/marketing/latest/homepage-dark-desktop.jpg) | ![homepage dark mobile](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/marketing/latest/homepage-dark-mobile.jpg) |
-
-## Infrastructure
-
-- **Runtime:** Node.js
-- **Database:** SQLite (local file)
-- **Storage:** Local filesystem
-- **Framework:** Astro with `@astrojs/node`
-
-## Getting Started
+## Local
 
 ```bash
 bun install
+cp .env.example .env
 bun dev
 ```
 
-Open http://localhost:4321/_emdash/admin and complete the setup wizard. EmDash runs database migrations and applies the marketing seed during setup. The site is available at http://localhost:4321.
+Open [http://localhost:4321](http://localhost:4321). The admin is [http://localhost:4321/_emdash/admin](http://localhost:4321/_emdash/admin).
 
-## Want Cloudflare Instead?
+Leave `POSTGRES_URL_NON_POOLING` empty in `.env`. The app then uses SQLite at `file:./data.db`. On a new database, EmDash applies `seed/seed.json` once, before the setup wizard finishes. After that, change collections with the admin or the app MCP. `bunx emdash seed` only writes the local SQLite file.
 
-See the [Cloudflare variant](../marketing-cloudflare) for a version that deploys to Cloudflare Workers with D1 and R2.
+Generate a unique `EMDASH_ENCRYPTION_KEY` for this machine. Set `EMDASH_MCP_TOKEN` to a personal access token from the local admin if you want the project EmDash MCP in `.cursor/mcp.json` (`http://localhost:4321/_emdash/api/mcp`).
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/emdash-cms/templates/tree/main/marketing-cloudflare)
+## Vercel
 
-## See Also
+Production uses the Vercel project `centeno-schultz-clinic-staging` and Supabase.
 
-- [All templates](../)
-- [EmDash documentation](https://docs.emdashcms.com/)
+1. Install the [Vercel CLI](https://vercel.com/docs/cli) and log in: `vercel login`.
+2. Connect the Vercel MCP in Cursor so deploys and logs can be read without the dashboard.
+3. The Supabase integration must set `POSTGRES_URL_NON_POOLING` on **Production**. That is the session pooler (port 5432). Do not point the app at `POSTGRES_URL` (transaction pooler, port 6543). The app rewrites `sslmode` to `no-verify` because Node rejects the pooler certificate chain.
+4. Connect a Vercel Blob store so `BLOB_STORE_ID` is present. Uploads need it.
+5. Set `EMDASH_ENCRYPTION_KEY` on Production. Use a different value from local.
+6. Push to `main`. Vercel builds Production from that branch.
+
+Preview and Development do not have the Supabase connection variables. Schema and content changes for the live staging site go to Production only.
+
+`seed/seed.json` does not run again after setup. A deploy does not create collections. Core migrations run on request and do not add collections either. Add or change collections on the live database with the app MCP (`schema_create_collection`, `schema_create_field`, `schema_update_collection`), then publish entries with `content_create` and `content_publish`.
+
+Use the app MCP for the deployed site, aimed at `https://centeno-schultz-clinic-staging.vercel.app/_emdash/api/mcp`. Create the bearer token in the staging admin.
+
+## Copy from the live clinic site
+
+Page copy, menus, and media that should match [https://centenoschultz.com/](https://centenoschultz.com/) come from the WordPress MCP server and the Emdash-Exporter plugin.
+
+## Optional: Graft
+
+[Graft](https://github.com/nanonets/graft) is already listed in `.cursor/mcp.json` as the `graft` server (`npx -y @nanonets/graft mcp`). The repo index is `graft/`. It answers “where does this live?” from small linked notes instead of reading whole files, which uses fewer tokens.
+
+It is optional. When an agent is about to use it, it should ask first. If you say yes, `graft ask`, `graft skeleton`, and `graft callers` are the usual commands. After a large code change, `graft build` refreshes the index with no API key.
+
+## MCP servers
+
+| Server | Role |
+|---|---|
+| `emdash` in `.cursor/mcp.json` | Local app MCP at `http://localhost:4321/_emdash/api/mcp` |
+| emdash mcp | Deployed app MCP. Schema and published entries on staging |
+| `emdash-docs` | [EmDash docs](https://docs.emdashcms.com/mcp) |
+| Vercel MCP and `vercel` CLI | Deployments, env, and logs for Production |
+| WordPress MCP server | Live content on [centenoschultz.com](https://centenoschultz.com/) |
+| `graft` | Optional. |

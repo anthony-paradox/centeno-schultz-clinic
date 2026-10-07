@@ -1,14 +1,19 @@
 ---
-description: Use the Graft context graph in graft/ before exploring source
+description: Optional Graft context graph; ask before using it
 alwaysApply: true
 ---
-## Graft — repo context graph
+## Graft — ask first
 
-This repo is indexed in `graft/`: small linked markdown nodes that explain each
-system and carry exact file:line spans, kept in sync with the code through git.
+This repo can be indexed in `graft/`: small linked markdown nodes with exact
+file:line spans. Using it spends fewer tokens than reading whole files.
 
-For ANY task here — understanding how something works, finding where code lives,
-or scoping a change — get context from the graph before grepping or opening
+Before the first Graft command or Graft MCP call in a conversation, ask:
+**"Use Graft MCP for this task to save tokens?"**
+
+- Yes: follow the workflow below.
+- No, or no answer yet: search and read source directly. Do not run Graft.
+
+When they said yes, get context from the graph before grepping or opening
 source files. Re-ask freely (it's cheap) and reuse literal identifiers you
 already have (symbol, error string, file name) as the query. New to this repo?
 Run `graft map` first — a token-budgeted orientation (dir clusters, hubs,

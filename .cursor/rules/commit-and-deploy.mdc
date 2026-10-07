@@ -1,0 +1,24 @@
+---
+description: Commit-and-push must migrate schema with Vercel and the app MCP
+alwaysApply: true
+---
+
+# Commit, push, and migrate
+
+When the user asks to commit and push this repo, stop before the push unless every required tool below is actually connected. Saying you will migrate later is not enough. Do not invent tokens, and do not commit `.env` or bearer tokens.
+
+## Required before push
+
+1. **Vercel CLI.** `vercel` is installed and `vercel whoami` succeeds. If it does not, stop and tell the user to install the CLI and run `vercel login`.
+2. **Vercel MCP.** A Vercel MCP namespace that can list this project's deployments is connected. If it is not, stop and ask the user to enable it. Use the CLI and the MCP together to confirm the Production deploy after the push.
+3. **App live MCP server.** The EmDash MCP for the deployed site (`https://centeno-schultz-clinic-staging.vercel.app/_emdash/api/mcp`) is connected. The local `emdash` server in `.cursor/mcp.json` only talks to localhost. Schema and entries for the live staging site go through the app live MCP server.
+4. **WordPress MCP server.** If the change needs live clinic content (header, footer, menus, landing copy, media, or page structure from [https://centenoschultz.com/](https://centenoschultz.com/)), the WordPress MCP server for that site must be connected. If it is missing, stop and ask the user to connect it before migrating.
+
+Ask once, in the same message as any missing-tool stop: **"Use Graft MCP for this task to save tokens?"** Wait for the answer. Use Graft only after an explicit yes. A missing answer means do not call Graft.
+
+## After the tools are connected
+
+- Commit, then push to `main`. Production deploys from that push.
+- Watch the deploy with the Vercel CLI and the Vercel MCP until it is Ready, or stop and report the error.
+- `seed/seed.json` does not change an already-set-up database, and `bunx emdash seed` only writes local SQLite. Apply collection and field changes on staging with the app MCP (`schema_create_collection`, `schema_create_field`, `schema_update_collection`). Core migrations do not add collections.
+- **New collection:** create it on staging with the app live MCP server, then create and publish its entry (`content_create`, `content_publish`) in that same pass. Publish menus the entry points at. Read source values from the WordPress MCP server when the entry copies centenoschultz.com. Do not finish while the new collection has no published entry.
