@@ -1,0 +1,837 @@
+---
+import type { LandingFields } from "../clinic-content";
+import {
+	bestOptions,
+	blogCta,
+	blogPosts,
+	clinicMapUrl,
+	inventedCopy,
+	parallaxImage,
+	specialistsCopy,
+	storyWave,
+	superiorCopy,
+	testimonials,
+	treatmentAreas,
+	webinarCta,
+	webinars,
+} from "./clinic-mock";
+
+interface Props {
+	page: LandingFields;
+}
+
+const { page } = Astro.props;
+
+const jumps = [
+	{ href: "#patients", label: "Featured Testimonials" },
+	{ href: "#areas", label: "Areas Treated" },
+	{ href: "#about", label: "About Us" },
+	{ href: "#blog", label: "Featured Blogs" },
+	{ href: "#webinars", label: "Watch Webinars" },
+];
+---
+
+<article class="clinic-landing">
+	<section class="clinic-hero" aria-label="Introduction">
+		<div class="clinic-hero-image" style={`background-image: url('${page.heroImage}')`}>
+		</div>
+		<div class="clinic-hero-copy">
+			<h1>{page.heroHeading}</h1>
+			<p>{page.heroSubheading}</p>
+			<a class="clinic-hero-button" href={page.candidateUrl}>{page.candidateLabel}</a>
+		</div>
+	</section>
+
+	<section class="clinic-invented" aria-labelledby="invented-heading">
+		<div class="clinic-wrap clinic-wrap-narrow">
+			<h2 id="invented-heading">Where Interventional Orthopedics Was Invented</h2>
+			<p>{inventedCopy}</p>
+		</div>
+	</section>
+
+	<nav class="jump-menu" aria-label="Jump to">
+		<span class="jump-label">Jump To</span>
+		<div class="jump-links">
+			{jumps.map((item) => <a href={item.href}>{item.label}</a>)}
+		</div>
+	</nav>
+
+	<section class="clinic-band" id="patients" aria-labelledby="patients-heading">
+		<div class="clinic-wrap">
+			<h2 id="patients-heading">Real Patients. Real Results.</h2>
+			<div class="patient-carousel" data-patient-carousel>
+				<button type="button" class="carousel-control" data-prev aria-label="Previous patient story">
+					Previous
+				</button>
+				<div class="embla__viewport">
+					<div class="embla__container">
+						{
+							testimonials.map((story) => (
+								<div class="embla__slide">
+									<article>
+										<img src={story.image} alt="" />
+										<div>
+											<blockquote>
+												<p>{story.quote}</p>
+											</blockquote>
+											<p>
+												Treatment area: <a href={story.areaUrl}>{story.area}</a>
+											</p>
+											<p>Physician: {story.physician}</p>
+											<p class="patient-name">{story.patient}</p>
+											<a href={story.readMore}>Read more</a>
+										</div>
+									</article>
+								</div>
+							))
+						}
+					</div>
+				</div>
+				<button type="button" class="carousel-control" data-next aria-label="Next patient story">
+					Next
+				</button>
+			</div>
+		</div>
+	</section>
+
+	<section class="clinic-areas" id="areas" aria-labelledby="areas-heading">
+		<div class="clinic-wrap clinic-wrap-narrow">
+			<h2 id="areas-heading">Areas We Treat</h2>
+			<p class="areas-kicker">Explore Our Treatment Solutions</p>
+		</div>
+		<ul class="area-grid">
+			{
+				treatmentAreas.map((area) => (
+					<li>
+						<a class="area-tile" href={area.href}>
+							<span class="area-photo" style={`background-image: url('${area.image}')`}></span>
+							<span class="area-shade">
+								<span class="area-label">
+									{area.label}
+									<span class="area-cta">{area.cta}</span>
+								</span>
+							</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<section class="clinic-story" id="about" style={`background-image: url('${storyWave}')`}>
+		<div class="clinic-wrap">
+			<h2 id="about-heading">The Nation’s Most Experienced Interventional Orthopedics Specialists</h2>
+			<p>{specialistsCopy}</p>
+			<p><a class="clinic-more" href="/contact/">Learn More &gt;</a></p>
+			<h2 id="superior-heading">What makes Centeno-Schultz superior?</h2>
+			<p>{superiorCopy}</p>
+			<p><a class="clinic-more" href="/contact/">Learn More &gt;</a></p>
+		</div>
+	</section>
+
+	<section class="clinic-band" id="tour" aria-labelledby="tour-heading">
+		<div class="clinic-wrap">
+			<h2 id="tour-heading">Tour Our Clinic</h2>
+			<iframe
+				class="clinic-map"
+				title="Street View of the Centeno-Schultz Clinic in Broomfield"
+				src={clinicMapUrl}
+				loading="lazy"
+				referrerpolicy="no-referrer-when-downgrade"
+			></iframe>
+		</div>
+	</section>
+
+	<section class="clinic-best" id="best" aria-labelledby="best-heading">
+		<div class="clinic-wrap">
+			<hr />
+			<h2 id="best-heading">Clearly the Best Option</h2>
+			<ul class="option-grid">
+				{
+					bestOptions.map((item) => (
+						<li>
+							<h3>{item.title}</h3>
+							<p>{item.body}</p>
+							<p>
+								<a class="clinic-more" href={item.href}>
+									{item.link}
+								</a>
+							</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section
+		class="clinic-parallax"
+		style={`background-image: url('${parallaxImage}')`}
+	>
+		<h2>
+			Get Back to What You Love<br class="line-tablet" /> Faster and<br class="line-mobile" /> Without Surgery
+		</h2>
+	</section>
+
+	<section class="clinic-band" id="blog" aria-labelledby="blog-heading">
+		<div class="clinic-wrap">
+			<h2 id="blog-heading">Explore Centeno-Schultz Blog</h2>
+			<ul class="card-grid">
+				{
+					blogPosts.map((post) => (
+						<li>
+							<a class="story-card" href={post.href}>
+								<img src={post.image} alt="" />
+								<span>Blog</span>
+								<strong>{post.title}</strong>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+			<p class="clinic-cta-row">
+				<a class="clinic-cta" href={blogCta.href}>{blogCta.label}</a>
+			</p>
+		</div>
+	</section>
+
+	<section class="clinic-band clinic-band-alt" id="webinars" aria-labelledby="webinar-heading">
+		<div class="clinic-wrap">
+			<h2 id="webinar-heading">Watch Centeno-Schultz Webinars</h2>
+			<ul class="card-grid">
+				{
+					webinars.map((item) => (
+						<li>
+							<a class="story-card" href={item.href}>
+								<img src={item.image} alt="" />
+								<strong>{item.title}</strong>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+			<p class="clinic-cta-row">
+				<a class="clinic-cta" href={webinarCta.href}>{webinarCta.label}</a>
+			</p>
+		</div>
+	</section>
+</article>
+
+<script>
+	import EmblaCarousel from "embla-carousel";
+
+	document.querySelectorAll<HTMLElement>("[data-patient-carousel]").forEach((root) => {
+		const viewport = root.querySelector<HTMLElement>(".embla__viewport");
+		if (!viewport) return;
+		const embla = EmblaCarousel(viewport, { loop: true, align: "start" });
+		root.querySelector("[data-prev]")?.addEventListener("click", () => embla.scrollPrev());
+		root.querySelector("[data-next]")?.addEventListener("click", () => embla.scrollNext());
+	});
+</script>
+
+<style>
+	.clinic-landing {
+		color: var(--color-text);
+	}
+
+	.clinic-landing section {
+		scroll-margin-top: 5.5rem;
+	}
+
+	.clinic-hero {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 500px;
+		overflow: hidden;
+	}
+
+	.clinic-hero-image {
+		position: absolute;
+		inset: 0;
+		background-color: #161a30;
+		background-position: 49% 0%;
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+
+	.clinic-hero-copy {
+		position: relative;
+		z-index: 1;
+		max-width: 900px;
+		padding: 7rem 1.25rem 4rem;
+		text-align: center;
+		color: #fff;
+	}
+
+	.clinic-hero h1 {
+		margin: 0;
+		font-family: "capitolium-2", Palatino, "Palatino Linotype", serif;
+		font-weight: 300;
+		font-size: 2.925rem;
+		line-height: 1.1;
+		color: #fff;
+	}
+
+	.clinic-hero p {
+		margin: 1rem 0 0;
+		font-size: 1.2rem;
+		font-weight: 400;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: #fff;
+	}
+
+	.clinic-hero-button {
+		display: inline-flex;
+		margin-top: 2rem;
+		padding: 0.7rem 1.4rem;
+		border: 1px solid #fff;
+		background: transparent;
+		color: #fff;
+		text-decoration: none;
+	}
+
+	.clinic-hero-button:hover {
+		background: #61a60e;
+		border-color: #61a60e;
+		color: #fff;
+		text-decoration: none;
+	}
+
+	.clinic-invented {
+		background: #161a30;
+		color: #fff;
+		padding: 4.5rem 0 5rem;
+		text-align: center;
+	}
+
+	.clinic-invented h2,
+	.clinic-invented p {
+		color: #fff;
+	}
+
+	.clinic-invented p {
+		margin: 0;
+		line-height: 1.7;
+	}
+
+	.jump-menu {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: 0.35rem 0;
+		width: min(1120px, calc(100% - 2rem));
+		margin: -1.75rem auto 0;
+		padding: 0.65rem 0.5rem;
+		background: #fff;
+		box-shadow: 0 1px 0 rgb(0 0 0 / 0.04);
+	}
+
+	.jump-label {
+		color: #bcbec0;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		padding: 0.45rem 1rem;
+		white-space: nowrap;
+	}
+
+	.jump-label::after {
+		content: "";
+		display: inline-block;
+		width: 0.7rem;
+		height: 0.7rem;
+		margin-left: 0.55rem;
+		background: currentColor;
+		clip-path: polygon(0 0, 100% 50%, 0 100%, 28% 50%);
+		vertical-align: -0.05rem;
+	}
+
+	.jump-links {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.jump-links a {
+		color: var(--color-brand);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		font-size: 0.82rem;
+		padding: 0.45rem 1.1rem;
+		white-space: nowrap;
+	}
+
+	.jump-links a + a {
+		border-left: 1px solid #d5d7da;
+	}
+
+	.clinic-band {
+		padding: 4rem 0;
+	}
+
+	.clinic-band-alt {
+		background: var(--color-surface);
+	}
+
+	.clinic-wrap {
+		max-width: 1120px;
+		margin: 0 auto;
+		padding: 0 1.25rem;
+	}
+
+	.clinic-wrap-narrow {
+		max-width: 860px;
+	}
+
+	.clinic-wrap h2,
+	.clinic-parallax h2,
+	.areas-kicker {
+		margin: 0 0 1.5rem;
+		text-align: center;
+		font-family: "capitolium-2", Palatino, "Palatino Linotype", serif;
+		font-weight: 300;
+	}
+
+	.areas-kicker {
+		margin-bottom: 1.25rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		font-size: 1.05rem;
+	}
+
+	.patient-carousel {
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		gap: 0.75rem;
+		align-items: center;
+	}
+
+	.embla__viewport {
+		overflow: hidden;
+	}
+
+	.embla__container {
+		display: flex;
+		margin-left: -0.75rem;
+	}
+
+	.embla__slide {
+		flex: 0 0 100%;
+		min-width: 0;
+		padding-left: 0.75rem;
+	}
+
+	.embla__slide article {
+		display: grid;
+		gap: 1rem;
+		height: 100%;
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+	}
+
+	.embla__slide img {
+		width: 100%;
+		height: 240px;
+		object-fit: cover;
+	}
+
+	.embla__slide div {
+		padding: 0 1.25rem 1.25rem;
+	}
+
+	.embla__slide blockquote {
+		margin: 0 0 1rem;
+	}
+
+	.patient-name {
+		font-weight: 600;
+	}
+
+	.carousel-control {
+		border: 1px solid var(--color-border);
+		background: var(--color-bg);
+		color: var(--color-text);
+		font: inherit;
+		padding: 0.5rem 0.75rem;
+		cursor: pointer;
+	}
+
+	.clinic-areas {
+		padding: 3rem 0 0;
+		background: var(--color-bg);
+	}
+
+	.area-grid,
+	.card-grid,
+	.option-grid {
+		display: grid;
+		gap: 1rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.area-grid {
+		gap: 0.2rem;
+		grid-template-columns: 1fr;
+	}
+
+	.area-tile {
+		position: relative;
+		display: block;
+		overflow: hidden;
+		aspect-ratio: 1;
+		color: #fff;
+		text-decoration: none;
+	}
+
+	.area-photo {
+		position: absolute;
+		inset: 0;
+		background-position: center;
+		background-size: cover;
+		transform: scale(1);
+		transition: transform 0.45s ease;
+	}
+
+	.area-tile:hover .area-photo,
+	.area-tile:focus-visible .area-photo {
+		transform: scale(1.15);
+	}
+
+	.area-shade {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		padding: 1rem;
+		background: rgb(21 35 44 / 0.55);
+		transition: background-color 0.4s ease;
+	}
+
+	.area-tile:hover .area-shade,
+	.area-tile:focus-visible .area-shade {
+		background: rgb(21 35 44 / 0.28);
+	}
+
+	.area-label {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		max-width: 16rem;
+		font-size: 1.35rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	.area-cta {
+		display: inline-block;
+		max-height: 0;
+		margin: 0;
+		padding: 0 1em;
+		overflow: hidden;
+		border: 2px solid transparent;
+		background: transparent;
+		opacity: 0;
+		font-size: 0.72rem;
+		letter-spacing: 0;
+		line-height: 1.3;
+		text-transform: none;
+		transition:
+			max-height 0.4s ease,
+			margin 0.4s ease,
+			padding 0.4s ease,
+			opacity 0.4s ease,
+			border-color 0.4s ease,
+			background-color 0.4s ease;
+	}
+
+	.area-tile:hover .area-cta,
+	.area-tile:focus-visible .area-cta {
+		max-height: 4rem;
+		margin-top: 0.7rem;
+		padding: 0.4em 1em;
+		border-color: #fff;
+		opacity: 1;
+	}
+
+	.clinic-story {
+		padding: 4.5rem 0;
+		background-color: var(--color-bg);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+	}
+
+	:root.dark .clinic-story {
+		background-image: none !important;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:root:not(.light) .clinic-story {
+			background-image: none !important;
+		}
+	}
+
+	.clinic-story p,
+	.option-grid p {
+		line-height: 1.7;
+	}
+
+	.clinic-more {
+		color: var(--color-brand);
+		text-decoration: none;
+	}
+
+	.clinic-more:hover,
+	.jump-links a:hover {
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.clinic-more:hover {
+		color: var(--color-brand-strong);
+	}
+
+	.clinic-best {
+		padding-bottom: 5rem;
+	}
+
+	.clinic-best hr {
+		border: 0;
+		border-top: 1px solid var(--color-border);
+		margin: 0 0 3rem;
+	}
+
+	.option-grid h3 {
+		margin: 0 0 0.75rem;
+		text-align: center;
+	}
+
+	.clinic-map {
+		display: block;
+		width: 100%;
+		height: 550px;
+		border: 0;
+	}
+
+	.clinic-parallax {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 700px;
+		padding: 2rem 1.25rem;
+		background-position: center;
+		background-size: cover;
+		background-attachment: fixed;
+		color: #fff;
+		text-align: center;
+	}
+
+	.clinic-parallax h2 {
+		max-width: 12em;
+		margin: 0;
+		font-size: clamp(2rem, 8vw, 2.7rem);
+		line-height: 1.15;
+		color: #fff;
+	}
+
+	.line-tablet,
+	.line-mobile {
+		display: block;
+	}
+
+	.card-grid {
+		margin-bottom: 2rem;
+	}
+
+	.story-card {
+		display: block;
+		height: 100%;
+		color: var(--color-text);
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		text-decoration: none;
+	}
+
+	.story-card:hover strong {
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.story-card img {
+		width: 100%;
+		height: 180px;
+		object-fit: cover;
+	}
+
+	.story-card strong,
+	.story-card span {
+		display: block;
+		padding: 0.35rem 1rem;
+	}
+
+	.story-card span {
+		padding-top: 1rem;
+		color: var(--color-muted);
+		font-size: 0.8rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	.story-card strong {
+		padding-bottom: 1rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.clinic-cta-row {
+		display: flex;
+		justify-content: center;
+		margin: 0;
+	}
+
+	.clinic-cta {
+		display: inline-flex;
+		padding: 0.75rem 1.4rem;
+		border: 1px solid currentColor;
+		background: transparent;
+		color: var(--color-text);
+		text-align: center;
+		text-decoration: none;
+	}
+
+	.clinic-cta:hover {
+		color: #fff;
+		background: #61a60e;
+		border-color: #61a60e;
+		text-decoration: none;
+	}
+
+	@media (min-width: 700px) {
+		.embla__slide article {
+			grid-template-columns: 180px 1fr;
+		}
+
+		.embla__slide img {
+			height: 100%;
+			min-height: 220px;
+		}
+
+		.embla__slide div {
+			padding: 1.25rem 1.25rem 1.25rem 0;
+		}
+
+		.card-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	@media (min-width: 768px) {
+		.clinic-hero {
+			min-height: 700px;
+		}
+
+		.clinic-hero h1 {
+			font-size: 3.4rem;
+		}
+
+		.jump-menu {
+			flex-wrap: nowrap;
+		}
+
+		.area-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.line-mobile {
+			display: none;
+		}
+
+		.line-tablet {
+			display: block;
+		}
+
+		.clinic-parallax h2 {
+			max-width: 16em;
+			font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.clinic-hero {
+			min-height: 780px;
+		}
+
+		.clinic-hero h1 {
+			font-size: 3.9rem;
+		}
+
+		.embla__slide {
+			flex-basis: 50%;
+		}
+
+		.area-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+
+		.option-grid {
+			grid-template-columns: 1fr 1fr;
+			gap: 0;
+		}
+
+		.option-grid li:nth-child(odd) {
+			padding: 2.75rem 8% 2.75rem 0;
+			border-right: 1px solid #a7a9ac;
+		}
+
+		.option-grid li:nth-child(even) {
+			padding: 2.75rem 0 2.75rem 8%;
+		}
+
+		.option-grid li:nth-child(n + 3) {
+			border-top: 1px solid #a7a9ac;
+		}
+
+		.option-grid li:nth-child(-n + 2) {
+			padding-top: 0;
+		}
+
+		.line-tablet,
+		.line-mobile {
+			display: none;
+		}
+
+		.clinic-parallax h2 {
+			max-width: none;
+			font-size: clamp(2rem, 2.85vw, 4.2rem);
+			white-space: nowrap;
+		}
+	}
+
+	@media (min-width: 1920px) {
+		.clinic-hero {
+			min-height: 880px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.clinic-parallax {
+			background-attachment: scroll;
+		}
+
+		.area-photo,
+		.area-shade,
+		.area-cta {
+			transition: none;
+		}
+	}
+</style>

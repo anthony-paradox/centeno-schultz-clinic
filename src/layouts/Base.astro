@@ -1,8 +1,10 @@
 ---
-import { getMenuWithCacheHint, getSiteSettingsWithCacheHint } from "emdash";
+import { getEmDashEntry, getMenuWithCacheHint, getSiteSettingsWithCacheHint } from "emdash";
 import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
 import { Font } from "astro:assets";
+import { footerFields, headerFields } from "../templates/clinic-content";
+import { clinicTemplate, clinicTemplates } from "../templates/registry";
 import "../styles/tokens.css";
 import "../styles/theme.css";
 
@@ -14,46 +16,48 @@ interface Props {
 	canonical?: string | null;
 	robots?: string | null;
 	content?: { collection: string; id: string; slug?: string | null };
+	overlayHeader?: boolean;
 }
 
-const { title, pageTitle, description, image, canonical, robots, content } = Astro.props;
-const [settingsResult, menuResult, footerProductResult, footerCompanyResult, footerSupportResult] =
-	await Promise.all([
-		getSiteSettingsWithCacheHint(),
-		getMenuWithCacheHint("primary"),
-		getMenuWithCacheHint("footer_product"),
-		getMenuWithCacheHint("footer_company"),
-		getMenuWithCacheHint("footer_support"),
-	]);
+const { title, pageTitle, description, image, canonical, robots, content, overlayHeader = false } =
+	Astro.props;
+
+async function loadEntry(collection: string, slug: string) {
+	try {
+		return await getEmDashEntry(collection, slug);
+	} catch {
+		return { entry: null, cacheHint: undefined };
+	}
+}
+
+const [settingsResult, headerResult, footerResult] = await Promise.all([
+	getSiteSettingsWithCacheHint(),
+	loadEntry("headers", "clinic"),
+	loadEntry("footers", "clinic"),
+]);
+
+const header = headerFields(headerResult.entry?.data as Record<string, unknown> | undefined);
+const footer = footerFields(footerResult.entry?.data as Record<string, unknown> | undefined);
+const templateName = clinicTemplate(header.template) ?? "clinic";
+const { Header, Footer } = clinicTemplates[templateName];
+
+const [navResult, findUsResult, legalResult] = await Promise.all([
+	getMenuWithCacheHint(header.navigationMenu),
+	getMenuWithCacheHint(footer.findUsMenu),
+	getMenuWithCacheHint(footer.legalMenu),
+]);
 
 if (Astro.cache?.enabled) {
-	for (const result of [
-		settingsResult,
-		menuResult,
-		footerProductResult,
-		footerCompanyResult,
-		footerSupportResult,
-	]) {
-		Astro.cache.set(result.cacheHint);
+	for (const result of [settingsResult, headerResult, footerResult, navResult, findUsResult, legalResult]) {
+		if (result.cacheHint) Astro.cache.set(result.cacheHint);
 	}
 }
 
 const settings = settingsResult.data;
-const siteTitle = settings?.title || "Acme";
+const siteTitle = settings?.title || "Centeno-Schultz Clinic";
 const fullTitle = title ? (title.includes(siteTitle) ? title : `${title} — ${siteTitle}`) : siteTitle;
 const siteDescription =
-	settings?.tagline || "Build products people actually want";
-const siteLogo = settings.logo?.url ? settings.logo : null;
-const menu = menuResult.data;
-const footerProduct = footerProductResult.data;
-const footerCompany = footerCompanyResult.data;
-const footerSupport = footerSupportResult.data;
-
-const footerColumns = [
-	{ heading: "Product", menu: footerProduct },
-	{ heading: "Company", menu: footerCompany },
-	{ heading: "Support", menu: footerSupport },
-].filter((col) => col.menu && col.menu.items.length > 0);
+	settings?.tagline || "The Standard in Non-Surgical Orthopedic Care Since 2005";
 
 const pageCtx = createPublicPageContext({
 	Astro,
@@ -68,8 +72,6 @@ const pageCtx = createPublicPageContext({
 	seo: { ogImage: image, robots },
 	siteName: siteTitle,
 });
-
-const isLoggedIn = !!Astro.locals.user;
 ---
 
 <!doctype html>
@@ -78,6 +80,7 @@ const isLoggedIn = !!Astro.locals.user;
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>{fullTitle}</title>
+		<link rel="stylesheet" href="https://use.typekit.net/bjw6udd.css" />
 		<EmDashHead page={pageCtx} />
 		<Font cssVariable="--font-body" preload />
 		<script is:inline>
@@ -95,114 +98,17 @@ const isLoggedIn = !!Astro.locals.user;
 	</head>
 	<body>
 		<EmDashBodyStart page={pageCtx} />
-		<header class="site-header">
-			<nav class="nav">
-				<a href="/" class="site-logo">
-					{siteLogo
-						? <img
-							src={siteLogo.url}
-							alt={siteLogo.alt || siteTitle}
-							width={siteLogo.width}
-							height={siteLogo.height}
-							class="site-logo-img"
-						/>
-						: siteTitle
-					}
-				</a>
-				<div class="nav-links">
-					{
-						menu?.items.map((item) => (
-							<a
-								href={item.url}
-								target={item.target}
-								rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
-							>
-								{item.label}
-							</a>
-						))
-					}
-				</div>
-				<div class="nav-actions">
-					{isLoggedIn && <a href="/_emdash/admin" class="nav-admin">Admin</a>}
-					<a href="/contact" class="btn btn-primary nav-cta">Get Started</a>
-				</div>
-			</nav>
-		</header>
+		<Header header={header} items={navResult.data?.items ?? []} overlay={overlayHeader} />
 
-		<main>
+		<main id="main">
 			<slot />
 		</main>
 
-		<footer class="site-footer">
-			<div class="footer-content">
-				<div class="footer-brand">
-					<span class="footer-logo">
-						{siteLogo
-								? <img
-									src={siteLogo.url}
-									alt={siteLogo.alt || siteTitle}
-									width={siteLogo.width}
-									height={siteLogo.height}
-									class="footer-logo-img"
-								/>
-							: siteTitle
-						}
-					</span>
-					<p class="footer-tagline">
-						{settings?.tagline || "Build something amazing"}
-					</p>
-				</div>
-				<div class="footer-links">
-					{
-						footerColumns.map((col) => (
-							<div class="footer-col">
-								<h4>{col.heading}</h4>
-								{col.menu!.items.map((item) => (
-									<a
-										href={item.url}
-										target={item.target}
-										rel={item.target ? "noopener noreferrer" : undefined}>
-										{item.label}
-									</a>
-								))}
-							</div>
-						))
-					}
-				</div>
-			</div>
-			<div class="footer-bottom">
-				<p>
-					&copy; {new Date().getFullYear()}
-					{siteTitle}. All rights reserved.
-				</p>
-				<div class="theme-switcher">
-					<button
-						type="button"
-						class="theme-btn"
-						data-theme="light"
-						aria-pressed="false"
-						aria-label="Light mode">Light</button
-					>
-					<button
-						type="button"
-						class="theme-btn"
-						data-theme="dark"
-						aria-pressed="false"
-						aria-label="Dark mode">Dark</button
-					>
-					<button
-						type="button"
-						class="theme-btn"
-						data-theme="system"
-						aria-pressed="false"
-						aria-label="System theme">System</button
-					>
-				</div>
-				<p class="footer-powered">
-					Powered by <a href="https://emdashcms.com">EmDash</a>
-				</p>
-			</div>
-		</footer>
+		<Footer
+			footer={footer}
+			findUs={findUsResult.data?.items ?? []}
+			legal={legalResult.data?.items ?? []}
+		/>
 
 		<EmDashBodyEnd page={pageCtx} />
 
@@ -322,6 +228,11 @@ const isLoggedIn = !!Astro.locals.user;
 				p a:not([class]),
 				li a:not([class]) {
 					color: var(--color-brand);
+					text-decoration: none;
+				}
+
+				p a:not([class]):hover,
+				li a:not([class]):hover {
 					text-decoration: underline;
 					text-underline-offset: 2px;
 				}

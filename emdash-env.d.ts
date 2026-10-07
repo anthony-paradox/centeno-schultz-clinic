@@ -5,6 +5,68 @@
 
 import type { BylineSummary, ContentBylineCredit, TaxonomyTerm } from "emdash";
 
+export interface Footer {
+  id: string;
+  slug: string | null;
+  status: string;
+  template: "clinic";
+  contact?: string;
+  linkedin?: string;
+  facebook?: string;
+  youtube?: string;
+  instagram?: string;
+  pinterest?: string;
+  locations?: unknown;
+  badges?: unknown;
+  find_us_menu?: string;
+  legal_menu?: string;
+  copyright_name?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface Header {
+  id: string;
+  slug: string | null;
+  status: string;
+  template: "clinic";
+  phone?: string;
+  phone_href?: string;
+  appointment_label?: string;
+  appointment_url?: string;
+  appointment_target?: "_self" | "_blank";
+  navigation_menu?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface LandingPage {
+  id: string;
+  slug: string | null;
+  status: string;
+  template: "clinic";
+  title: string;
+  hero_image?: string;
+  hero_heading?: string;
+  hero_subheading?: string;
+  candidate_label?: string;
+  candidate_url?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
 export interface PageContentMarketingHeroV1Block {
   _type: "marketing_hero";
   _version: 1;
@@ -85,6 +147,9 @@ export interface Page {
 
 declare module "emdash" {
   interface EmDashCollections {
+    footers: Footer;
+    headers: Header;
+    landing_pages: LandingPage;
     pages: Page;
   }
 }

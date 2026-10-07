@@ -29,4 +29,17 @@
 */
 
 :root {
+	--color-bg: light-dark(#ffffff, #161a30);
+	--color-text: light-dark(#161a30, #f4f7fb);
+	--color-muted: light-dark(#5c657a, #c5cedd);
+	--color-border: light-dark(#d7dde8, #2c3450);
+	--color-surface: light-dark(#f4f7fb, #1e2438);
+	--color-brand: light-dark(#008996, #3ec4cf);
+	--color-brand-strong: light-dark(#007684, #2aa8b3);
+	--color-brand-soft: light-dark(#7fd3da, #7fd3da);
+	--color-accent: light-dark(#61a60e, #8ed14a);
+	--color-accent-soft: light-dark(#b6dc86, #c6e7a4);
+	--font-heading: "capitolium-2", Palatino, "Palatino Linotype", serif;
+	--font-weight-heading: 400;
+	--font-weight-display: 300;
 }

@@ -1,0 +1,40 @@
+---
+import { getEmDashEntry, getSeoMeta } from "emdash";
+import Base from "../layouts/Base.astro";
+import { landingFields } from "../templates/clinic-content";
+import { clinicTemplate, clinicTemplates } from "../templates/registry";
+
+const { slug } = Astro.params;
+if (!slug || slug === "home") return Astro.redirect("/");
+
+const { entry: page, cacheHint } = await getEmDashEntry("landing_pages", slug).catch(() => ({
+	entry: null,
+	cacheHint: undefined,
+}));
+
+if (!page) return Astro.rewrite("/404");
+if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
+
+const landing = landingFields(page.data as Record<string, unknown>);
+const templateName = clinicTemplate(landing.template);
+if (!templateName) return Astro.rewrite("/404");
+const { Landing } = clinicTemplates[templateName];
+const seo = getSeoMeta(page, {
+	siteUrl: Astro.url.origin,
+	path: `/${slug}`,
+	defaultDescription: landing.heroSubheading,
+});
+---
+
+<Base
+	title={seo.title || landing.title}
+	pageTitle={landing.title}
+	description={seo.description || landing.heroSubheading}
+	image={seo.ogImage}
+	canonical={seo.canonical}
+	robots={seo.robots}
+	overlayHeader={true}
+	content={{ collection: "landing_pages", id: page.id, slug }}
+>
+	<Landing page={landing} />
+</Base>

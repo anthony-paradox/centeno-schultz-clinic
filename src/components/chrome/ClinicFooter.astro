@@ -1,0 +1,309 @@
+---
+import type { FooterFields, NavItem } from "../../templates/clinic-content";
+import { isExternal } from "../../templates/clinic-content";
+
+interface Props {
+	footer: FooterFields;
+	findUs: NavItem[];
+	legal: NavItem[];
+}
+
+const { footer, findUs, legal } = Astro.props;
+
+const socialIcons: Record<string, string> = {
+	LinkedIn:
+		'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V24h-4V8.5zM8.5 8.5h3.8v2.1h.1c.5-1 1.8-2.1 3.8-2.1 4 0 4.8 2.6 4.8 6V24h-4v-7.7c0-1.8 0-4.1-2.5-4.1s-2.9 2-2.9 4V24h-4V8.5z"/></svg>',
+	Facebook:
+		'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M22 12.1C22 6.5 17.5 2 11.9 2S1.8 6.5 1.8 12.1c0 5 3.7 9.2 8.4 10v-7.1H7.9v-2.9h2.3V9.8c0-2.3 1.4-3.6 3.5-3.6 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.5.7-1.5 1.4v1.7h2.6l-.4 2.9h-2.2V22c4.8-.8 8.4-5 8.4-9.9z"/></svg>',
+	YouTube:
+		'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.8 15.5v-7l6.2 3.5-6.2 3.5z"/></svg>',
+	Instagram:
+		'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.7.1 4.8s0 3.6-.1 4.9c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.8C2.3 4 3.8 2.4 7.1 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-2.2.1-3.2 1.1-3.3 3.3-.1 1.2-.1 1.6-.1 4.6s0 3.4.1 4.7c.1 2.2 1.1 3.2 3.3 3.3 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c2.2-.1 3.2-1.1 3.3-3.3.1-1.2.1-1.6.1-4.7s0-3.4-.1-4.6c-.1-2.2-1.1-3.2-3.3-3.3-1.2-.1-1.6-.1-4.7-.1zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8zm0 1.8a3.1 3.1 0 1 0 0 6.2 3.1 3.1 0 0 0 0-6.2zm6.2-2.2a1.1 1.1 0 1 1-2.3 0 1.1 1.1 0 0 1 2.3 0z"/></svg>',
+	Pinterest:
+		'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5C6.2 1.5 1.5 6.2 1.5 12c0 4.6 2.9 8.5 7 10-.1-.8-.2-2.1 0-3 .2-.8 1.4-6 1.4-6s-.4-.7-.4-1.8c0-1.7 1-3 2.2-3 1 0 1.5.8 1.5 1.7 0 1-.7 2.6-1 4-.3 1.2.6 2.2 1.8 2.2 2.1 0 3.6-2.7 3.6-6 0-2.5-1.7-4.3-4.8-4.3-3.5 0-5.6 2.6-5.6 5.4 0 1 .4 2.1.9 2.7.1.1.1.2.1.3l-.3 1.3c-.1.3-.2.4-.5.2-1.5-.6-2.2-2.3-2.2-4.1 0-3.1 2.6-6.8 7.8-6.8 4.1 0 6.9 3 6.9 6.2 0 4.2-2.3 7.4-5.8 7.4-1.2 0-2.3-.6-2.6-1.4l-.7 2.7c-.3 1-1 2.2-1.5 3 1.1.3 2.3.5 3.5.5 5.8 0 10.5-4.7 10.5-10.5S17.8 1.5 12 1.5z"/></svg>',
+};
+
+const socials = [
+	{ name: "LinkedIn", href: footer.linkedin },
+	{ name: "Facebook", href: footer.facebook },
+	{ name: "YouTube", href: footer.youtube },
+	{ name: "Instagram", href: footer.instagram },
+	{ name: "Pinterest", href: footer.pinterest },
+].filter((item) => item.href);
+
+const contactLines = footer.contact
+	.split("\n")
+	.map((line) => line.trim())
+	.filter(Boolean);
+
+function lineHref(line: string, index: number): string | undefined {
+	if (line.includes("@")) {
+		const email = line.match(/[\w.+-]+@[\w.-]+/)?.[0];
+		return email ? `mailto:${email}` : undefined;
+	}
+	const digits = line.replace(/\D/g, "");
+	if (digits.length < 10 || /[a-z]/i.test(line)) return undefined;
+	return index === 0 ? `sms:${digits}` : `tel:${digits}`;
+}
+---
+
+<footer class="clinic-footer">
+	<div class="clinic-footer-top">
+		<div>
+			<h2>Contact Us</h2>
+			<div class="clinic-footer-contact">
+				{
+					contactLines.map((line, index) => {
+						const href = lineHref(line, index);
+						return href ? (
+							<p>
+								<a href={href}>{line}</a>
+							</p>
+						) : (
+							<p>{line}</p>
+						);
+					})
+				}
+			</div>
+			<ul class="clinic-social">
+				{
+					socials.map((item) => (
+						<li>
+							<a href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.name}>
+								<span set:html={socialIcons[item.name]} />
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+		<div>
+			<h2>Find Us</h2>
+			<div class="clinic-offices">
+				{
+					footer.locations.map((office) => (
+						<div class="clinic-office">
+							<img src="/brand/location-pin.svg" width="14" height="22" alt="" />
+							<div>
+								<a href={office.url}>{office.name}</a>
+								{office.address.split("\n").map((line) => (
+									<span>{line}</span>
+								))}
+							</div>
+						</div>
+					))
+				}
+				<div class="clinic-office clinic-office-links">
+					<div>
+						{
+							findUs.map((item) => (
+								<a
+									href={item.url}
+									target={isExternal(item.url) ? "_blank" : undefined}
+									rel={isExternal(item.url) ? "noopener noreferrer" : undefined}
+								>
+									{item.label}
+								</a>
+							))
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clinic-badges">
+			{
+				footer.badges.map((badge) => (
+					<img src={badge.image} alt={badge.alt} />
+				))
+			}
+		</div>
+	</div>
+	<div class="clinic-footer-bottom">
+		<p>
+			&copy; {new Date().getFullYear()} {footer.copyrightName}.
+			{
+				legal.map((item, index) => (
+					<>
+						<span class="clinic-legal-sep" aria-hidden="true">
+							|
+						</span>
+						<a href={item.url}>{item.label}</a>
+						{index === legal.length - 1 ? null : null}
+					</>
+				))
+			}
+		</p>
+		<div class="theme-switcher">
+			<button type="button" class="theme-btn" data-theme="light" aria-pressed="false" aria-label="Light mode">
+				Light
+			</button>
+			<button type="button" class="theme-btn" data-theme="dark" aria-pressed="false" aria-label="Dark mode">
+				Dark
+			</button>
+			<button type="button" class="theme-btn" data-theme="system" aria-pressed="false" aria-label="System theme">
+				System
+			</button>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.clinic-footer {
+		background: var(--color-surface);
+		color: var(--color-text);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.clinic-footer-top {
+		display: grid;
+		gap: 2rem;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 3rem 1.25rem 2rem;
+	}
+
+	.clinic-footer h2 {
+		margin: 0 0 0.75rem;
+		font-size: 1rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	.clinic-footer-contact p,
+	.clinic-office span,
+	.clinic-office a,
+	.clinic-social a {
+		display: block;
+		margin: 0;
+		color: var(--color-text);
+		line-height: 1.6;
+	}
+
+	.clinic-footer a:hover {
+		color: var(--color-brand);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.clinic-social a:hover {
+		text-decoration: none;
+	}
+
+	.clinic-social {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.65rem;
+		list-style: none;
+		margin: 1rem 0 0;
+		padding: 0;
+	}
+
+	.clinic-social a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		border: 1px solid var(--color-border);
+		border-radius: 999px;
+		color: var(--color-text);
+	}
+
+	.clinic-social a:hover {
+		color: #fff;
+		background: var(--color-brand);
+		border-color: var(--color-brand);
+	}
+
+	.clinic-social :global(svg) {
+		display: block;
+		width: 1.05rem;
+		height: 1.05rem;
+	}
+
+	.clinic-offices {
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.clinic-office {
+		display: grid;
+		grid-template-columns: 14px 1fr;
+		gap: 0.75rem;
+		align-items: start;
+	}
+
+	.clinic-office-links {
+		grid-template-columns: 1fr;
+	}
+
+	.clinic-badges {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		align-items: center;
+	}
+
+	.clinic-badges img {
+		width: auto;
+		max-height: 82px;
+	}
+
+	.clinic-footer-bottom {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 1rem;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 1rem 1.25rem 1.5rem;
+		border-top: 1px solid var(--color-border);
+		color: var(--color-muted);
+		font-size: 0.95rem;
+	}
+
+	.clinic-footer-bottom p {
+		margin: 0;
+	}
+
+	.clinic-legal-sep {
+		margin: 0 0.4rem;
+	}
+
+	.clinic-footer-bottom a {
+		color: var(--color-text);
+	}
+
+	.theme-switcher {
+		display: flex;
+		gap: 0.35rem;
+	}
+
+	.theme-btn {
+		background: transparent;
+		border: 1px solid var(--color-border);
+		color: var(--color-muted);
+		font-family: inherit;
+		font-size: 0.875rem;
+		padding: 0.25rem 0.55rem;
+		border-radius: 0.25rem;
+		cursor: pointer;
+	}
+
+	.theme-btn:hover,
+	.theme-btn.active {
+		color: var(--color-text);
+		border-color: var(--color-brand);
+	}
+
+	.theme-btn.active {
+		background: var(--color-bg);
+	}
+
+	@media (min-width: 800px) {
+		.clinic-footer-top {
+			grid-template-columns: 1.1fr 1.2fr auto;
+			align-items: start;
+		}
+	}
+</style>

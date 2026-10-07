@@ -1,0 +1,66 @@
+---
+import type { NavItem } from "../../templates/clinic-content";
+import { isExternal } from "../../templates/clinic-content";
+
+interface Props {
+	items: NavItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="clinic-menu-list">
+	{
+		items.map((item) => {
+			const href = item.url && item.url !== "#" ? item.url : "";
+			const external = href ? isExternal(href) : false;
+			return (
+				<li class:list={{ "has-children": item.children.length > 0 }}>
+					{href ? (
+						<a
+							href={href}
+							target={item.target || (external ? "_blank" : undefined)}
+							rel={external ? "noopener noreferrer" : undefined}
+						>
+							{item.label}
+						</a>
+					) : (
+						<span>{item.label}</span>
+					)}
+					{item.children.length > 0 && <Astro.self items={item.children} />}
+				</li>
+			);
+		})
+	}
+</ul>
+
+<style>
+	.clinic-menu-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.clinic-menu-list .clinic-menu-list {
+		margin: 0.15rem 0 0.6rem 1rem;
+	}
+
+	.clinic-menu-list a,
+	.clinic-menu-list span {
+		display: block;
+		padding: 0.45rem 0;
+		color: #fff;
+		font-weight: 400;
+	}
+
+	.clinic-menu-list a:hover {
+		color: #7fd3da;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.has-children > span,
+	.has-children > a {
+		font-weight: 600;
+	}
+</style>

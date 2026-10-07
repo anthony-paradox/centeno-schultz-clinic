@@ -1,0 +1,376 @@
+---
+import ClinicMenu from "./ClinicMenu.astro";
+import { smsHref, type HeaderFields, type NavItem } from "../../templates/clinic-content";
+
+interface Props {
+	header: HeaderFields;
+	items: NavItem[];
+	overlay: boolean;
+}
+
+const { header, items, overlay } = Astro.props;
+const textUs = smsHref(header.phoneHref);
+---
+
+<section
+	class:list={["clinic-banner", { "is-overlay": overlay, "is-solid": !overlay }]}
+	data-clinic-header
+	data-overlay={overlay ? "true" : "false"}
+>
+	<a id="skip-nav" class="skip-nav" href="#main">Skip to Main Content</a>
+	<header class="clinic-header">
+		<div class="clinic-header-bar">
+			<a class="clinic-logo" href="/" aria-label="Centeno-Schultz Clinic">
+				<img src="/brand/logo-desktop.svg" alt="" width="398" height="50" />
+			</a>
+			<div class="clinic-header-tools">
+				<div class="clinic-contact">
+					<ul class="clinic-phone">
+						<li>Virtual Visits Available</li>
+						<li class="clinic-phone-sep" aria-hidden="true">/</li>
+						<li>
+							<a href={header.phoneHref}>{header.phone}</a>
+							<a class="clinic-text-us" href={textUs}>Text Us</a>
+						</li>
+					</ul>
+					<a
+						class="clinic-appointment"
+						href={header.appointmentUrl}
+						target={header.appointmentTarget}
+						rel={header.appointmentTarget === "_blank" ? "noopener noreferrer" : undefined}
+					>
+						{header.appointmentLabel}
+					</a>
+				</div>
+				<button
+					type="button"
+					class="clinic-menu-button"
+					data-menu-toggle
+					aria-expanded="false"
+					aria-controls="clinic-menu-panel"
+				>
+					<span class="clinic-menu-icon" aria-hidden="true">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+					<span class="clinic-menu-label">Menu</span>
+				</button>
+			</div>
+		</div>
+	</header>
+	<div class="top-banner" data-top-banner>
+		<p>
+			New At Centeno-Schultz: Aesthetics treatments.{" "}
+			<a
+				class="top-banner-link"
+				href="https://centenoschultz.com/orthobiologics-grade-prp"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				Learn More
+			</a>
+		</p>
+	</div>
+	<nav id="clinic-menu-panel" class="clinic-menu" data-menu-panel aria-label="Primary" inert>
+		<button type="button" class="clinic-menu-close" data-menu-close>Close</button>
+		{items.length > 0 && <ClinicMenu items={items} />}
+	</nav>
+</section>
+
+<script>
+	const root = document.querySelector<HTMLElement>("[data-clinic-header]");
+	const toggle = root?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+	const closeBtn = root?.querySelector<HTMLButtonElement>("[data-menu-close]");
+
+	const panel = root?.querySelector<HTMLElement>("[data-menu-panel]");
+
+	function setOpen(open: boolean) {
+		if (!root || !toggle) return;
+		root.classList.toggle("is-menu-open", open);
+		toggle.setAttribute("aria-expanded", String(open));
+		document.body.classList.toggle("clinic-menu-lock", open);
+		if (open) panel?.removeAttribute("inert");
+		else panel?.setAttribute("inert", "");
+	}
+
+	toggle?.addEventListener("click", () => {
+		setOpen(!root?.classList.contains("is-menu-open"));
+	});
+	closeBtn?.addEventListener("click", () => setOpen(false));
+
+	if (root) {
+		const bar = root.querySelector<HTMLElement>(".clinic-header");
+		const onScroll = () => {
+			const y = window.scrollY;
+			root.classList.toggle("has-top-banner", root.dataset.overlay === "true" && y > 10);
+			if (root.dataset.overlay === "true") {
+				const height = bar?.offsetHeight ?? root.offsetHeight;
+				root.classList.toggle("is-scrolled", y > height);
+			}
+		};
+		onScroll();
+		window.addEventListener("scroll", onScroll, { passive: true });
+	}
+</script>
+
+<style>
+	.skip-nav {
+		position: absolute;
+		left: 1rem;
+		top: -4rem;
+		z-index: 1100;
+		background: #fff;
+		color: #161a30;
+		padding: 0.5rem 0.75rem;
+	}
+
+	.skip-nav:focus {
+		top: 0.5rem;
+	}
+
+	.clinic-banner {
+		position: relative;
+		z-index: 1000;
+		width: 100%;
+		font-size: 1rem;
+	}
+
+	.clinic-banner.is-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
+
+	.clinic-header {
+		color: #fff;
+		background: transparent;
+	}
+
+	.clinic-banner.is-solid .clinic-header,
+	.clinic-banner.is-scrolled .clinic-header {
+		background-color: #161a30;
+		background-image: url("/brand/header-strip.jpg");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
+	}
+
+	.clinic-banner.is-menu-open .clinic-header {
+		background-image: none;
+		background-color: #161a30;
+	}
+
+	.clinic-header-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		width: 100%;
+		padding: 20px 1rem;
+	}
+
+	.clinic-logo {
+		display: block;
+		flex: 0 0 auto;
+		width: min(302px, 46vw);
+	}
+
+	.clinic-logo img {
+		width: 100%;
+		height: auto;
+	}
+
+	.clinic-header-tools {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.clinic-contact {
+		display: none;
+		align-items: center;
+	}
+
+	.clinic-phone {
+		display: flex;
+		flex-flow: column;
+		align-items: center;
+		gap: 0.15rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		font-weight: 300;
+	}
+
+	.clinic-phone a {
+		color: #fff;
+		margin: 0 0.35rem;
+	}
+
+	.clinic-phone-sep {
+		display: none;
+	}
+
+	.clinic-text-us:hover,
+	.clinic-phone a:hover {
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.top-banner {
+		display: none;
+		background: #161a30;
+		color: #fff;
+		text-align: center;
+		padding: 8px 15px;
+		font-size: 0.9rem;
+		box-shadow: 0 4px 12px rgb(255 255 255 / 0.15);
+	}
+
+	.top-banner p {
+		margin: 0;
+	}
+
+	.top-banner-link {
+		color: #4da6ff;
+		text-decoration: none;
+	}
+
+	.top-banner-link:hover {
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.clinic-banner.has-top-banner .top-banner {
+		display: block;
+	}
+
+	.clinic-appointment {
+		display: none;
+		margin-left: 1em;
+		padding: 0.375em 1.3em;
+		color: #fff;
+		background: transparent;
+		border: 1px solid #fff;
+		white-space: nowrap;
+		font-weight: 400;
+		text-decoration: none;
+	}
+
+	.clinic-appointment:hover {
+		background: #61a60e;
+		border-color: #61a60e;
+		color: #fff;
+		text-decoration: none;
+	}
+
+	.clinic-menu-button {
+		display: flex;
+		align-items: center;
+		margin-left: 0.5rem;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		color: #fff;
+		cursor: pointer;
+		font: inherit;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+
+	.clinic-menu-icon {
+		display: inline-flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.clinic-menu-icon span {
+		display: block;
+		width: 35px;
+		height: 2px;
+		background: #fff;
+	}
+
+	.clinic-menu-label {
+		display: none;
+		padding-left: 1em;
+	}
+
+	.clinic-menu {
+		position: fixed;
+		top: 0;
+		right: 0;
+		z-index: 1001;
+		width: min(26rem, 100%);
+		height: 100%;
+		overflow: auto;
+		padding: 4.5rem 1.5rem 2rem;
+		background: #161a30;
+		color: #fff;
+		transform: translateX(100%);
+	}
+
+	.clinic-banner.is-menu-open .clinic-menu {
+		transform: none;
+	}
+
+	.clinic-menu-close {
+		position: absolute;
+		top: 1.25rem;
+		right: 1.25rem;
+		border: 0;
+		background: transparent;
+		color: #fff;
+		font: inherit;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		cursor: pointer;
+	}
+
+	:global(body.clinic-menu-lock) {
+		overflow: hidden;
+	}
+
+	@media (min-width: 768px) {
+		.clinic-header-bar {
+			padding: 20px 40px;
+		}
+
+		.clinic-logo {
+			width: 398px;
+		}
+
+		.clinic-menu-label {
+			display: inline;
+		}
+	}
+
+	@media (min-width: 900px) {
+		.clinic-contact {
+			display: flex;
+		}
+	}
+
+	@media (min-width: 1100px) {
+		.clinic-appointment {
+			display: inline-flex;
+		}
+	}
+
+	@media (min-width: 1230px) {
+		.clinic-phone {
+			flex-flow: row nowrap;
+		}
+
+		.clinic-phone-sep {
+			display: block;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.clinic-menu {
+			transition: none;
+		}
+	}
+</style>

@@ -2,13 +2,13 @@
 	"$schema": "https://emdashcms.com/seed.schema.json",
 	"version": "1",
 	"meta": {
-		"name": "Marketing Starter",
-		"description": "A conversion-focused marketing site with landing pages",
+		"name": "Centeno-Schultz Clinic",
+		"description": "Clinic header, footer, and landing page templates",
 		"author": "EmDash"
 	},
 	"settings": {
-		"title": "Acme",
-		"tagline": "Build products people actually want"
+		"title": "Centeno-Schultz Clinic",
+		"tagline": "The Standard in Non-Surgical Orthopedic Care Since 2005"
 	},
 	"blockTypes": [
 		{
@@ -25,25 +25,52 @@
 							"slug": "anchor_id",
 							"label": "Anchor ID",
 							"type": "string",
-							"validation": { "pattern": "^(?:$|[a-z][a-z0-9_-]*)$" }
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
 						},
-						{ "slug": "headline", "label": "Headline", "type": "string", "required": true },
-						{ "slug": "subheadline", "label": "Subheadline", "type": "text" },
-						{ "slug": "primary_cta_label", "label": "Primary CTA label", "type": "string" },
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "subheadline",
+							"label": "Subheadline",
+							"type": "text"
+						},
+						{
+							"slug": "primary_cta_label",
+							"label": "Primary CTA label",
+							"type": "string"
+						},
 						{
 							"slug": "primary_cta_url",
 							"label": "Primary CTA URL",
 							"type": "string",
-							"validation": { "pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$" }
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
 						},
-						{ "slug": "secondary_cta_label", "label": "Secondary CTA label", "type": "string" },
+						{
+							"slug": "secondary_cta_label",
+							"label": "Secondary CTA label",
+							"type": "string"
+						},
 						{
 							"slug": "secondary_cta_url",
 							"label": "Secondary CTA URL",
 							"type": "string",
-							"validation": { "pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$" }
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
 						},
-						{ "slug": "image", "label": "Image", "type": "image" },
+						{
+							"slug": "image",
+							"label": "Image",
+							"type": "image"
+						},
 						{
 							"slug": "centered",
 							"label": "Center the layout",
@@ -68,10 +95,21 @@
 							"slug": "anchor_id",
 							"label": "Anchor ID",
 							"type": "string",
-							"validation": { "pattern": "^(?:$|[a-z][a-z0-9_-]*)$" }
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
 						},
-						{ "slug": "headline", "label": "Headline", "type": "string", "required": true },
-						{ "slug": "subheadline", "label": "Subheadline", "type": "text" },
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "subheadline",
+							"label": "Subheadline",
+							"type": "text"
+						},
 						{
 							"slug": "features",
 							"label": "Features",
@@ -101,7 +139,12 @@
 											"cloud"
 										]
 									},
-									{ "slug": "title", "label": "Title", "type": "string", "required": true },
+									{
+										"slug": "title",
+										"label": "Title",
+										"type": "string",
+										"required": true
+									},
 									{
 										"slug": "description",
 										"label": "Description",
@@ -129,9 +172,15 @@
 							"slug": "anchor_id",
 							"label": "Anchor ID",
 							"type": "string",
-							"validation": { "pattern": "^(?:$|[a-z][a-z0-9_-]*)$" }
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
 						},
-						{ "slug": "headline", "label": "Headline", "type": "string" },
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
 						{
 							"slug": "testimonials",
 							"label": "Testimonials",
@@ -141,11 +190,33 @@
 								"minItems": 1,
 								"maxItems": 12,
 								"subFields": [
-									{ "slug": "quote", "label": "Quote", "type": "text", "required": true },
-									{ "slug": "author", "label": "Author name", "type": "string", "required": true },
-									{ "slug": "role", "label": "Role or title", "type": "string" },
-									{ "slug": "company", "label": "Company", "type": "string" },
-									{ "slug": "avatar", "label": "Avatar", "type": "image" }
+									{
+										"slug": "quote",
+										"label": "Quote",
+										"type": "text",
+										"required": true
+									},
+									{
+										"slug": "author",
+										"label": "Author name",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "role",
+										"label": "Role or title",
+										"type": "string"
+									},
+									{
+										"slug": "company",
+										"label": "Company",
+										"type": "string"
+									},
+									{
+										"slug": "avatar",
+										"label": "Avatar",
+										"type": "image"
+									}
 								]
 							}
 						}
@@ -167,9 +238,15 @@
 							"slug": "anchor_id",
 							"label": "Anchor ID",
 							"type": "string",
-							"validation": { "pattern": "^(?:$|[a-z][a-z0-9_-]*)$" }
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
 						},
-						{ "slug": "headline", "label": "Headline", "type": "string" },
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
 						{
 							"slug": "plans",
 							"label": "Plans",
@@ -179,14 +256,50 @@
 								"minItems": 1,
 								"maxItems": 3,
 								"subFields": [
-									{ "slug": "name", "label": "Plan name", "type": "string", "required": true },
-									{ "slug": "price", "label": "Price", "type": "string", "required": true },
-									{ "slug": "period", "label": "Period", "type": "string" },
-									{ "slug": "description", "label": "Description", "type": "text" },
-									{ "slug": "features", "label": "Features, one per line", "type": "text" },
-									{ "slug": "cta_label", "label": "CTA label", "type": "string", "required": true },
-									{ "slug": "cta_url", "label": "CTA URL", "type": "string", "required": true },
-									{ "slug": "highlighted", "label": "Highlight this plan", "type": "boolean" }
+									{
+										"slug": "name",
+										"label": "Plan name",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "price",
+										"label": "Price",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "period",
+										"label": "Period",
+										"type": "string"
+									},
+									{
+										"slug": "description",
+										"label": "Description",
+										"type": "text"
+									},
+									{
+										"slug": "features",
+										"label": "Features, one per line",
+										"type": "text"
+									},
+									{
+										"slug": "cta_label",
+										"label": "CTA label",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "cta_url",
+										"label": "CTA URL",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "highlighted",
+										"label": "Highlight this plan",
+										"type": "boolean"
+									}
 								]
 							}
 						}
@@ -208,9 +321,15 @@
 							"slug": "anchor_id",
 							"label": "Anchor ID",
 							"type": "string",
-							"validation": { "pattern": "^(?:$|[a-z][a-z0-9_-]*)$" }
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
 						},
-						{ "slug": "headline", "label": "Headline", "type": "string" },
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
 						{
 							"slug": "items",
 							"label": "Questions",
@@ -220,8 +339,18 @@
 								"minItems": 1,
 								"maxItems": 12,
 								"subFields": [
-									{ "slug": "question", "label": "Question", "type": "string", "required": true },
-									{ "slug": "answer", "label": "Answer", "type": "text", "required": true }
+									{
+										"slug": "question",
+										"label": "Question",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "answer",
+										"label": "Answer",
+										"type": "text",
+										"required": true
+									}
 								]
 							}
 						}
@@ -235,7 +364,11 @@
 			"slug": "pages",
 			"label": "Pages",
 			"labelSingular": "Page",
-			"supports": ["drafts", "revisions", "seo"],
+			"supports": [
+				"drafts",
+				"revisions",
+				"seo"
+			],
 			"fields": [
 				{
 					"slug": "title",
@@ -259,12 +392,564 @@
 					}
 				}
 			]
+		},
+		{
+			"slug": "headers",
+			"label": "Headers",
+			"labelSingular": "Header",
+			"description": "Site header chrome. The template select chooses the Astro header component.",
+			"supports": [
+				"drafts",
+				"revisions"
+			],
+			"routable": false,
+			"group": "Site",
+			"fields": [
+				{
+					"slug": "template",
+					"label": "Template",
+					"type": "select",
+					"required": true,
+					"defaultValue": "clinic",
+					"validation": {
+						"options": [
+							"clinic"
+						]
+					}
+				},
+				{
+					"slug": "phone",
+					"label": "Phone",
+					"type": "string",
+					"defaultValue": "303-429-6448"
+				},
+				{
+					"slug": "phone_href",
+					"label": "Phone link",
+					"type": "string",
+					"defaultValue": "tel:13034296448"
+				},
+				{
+					"slug": "appointment_label",
+					"label": "Appointment label",
+					"type": "string",
+					"defaultValue": "Make an Appointment"
+				},
+				{
+					"slug": "appointment_url",
+					"label": "Appointment URL",
+					"type": "string",
+					"defaultValue": "/appointment/"
+				},
+				{
+					"slug": "appointment_target",
+					"label": "Appointment target",
+					"type": "select",
+					"defaultValue": "_self",
+					"validation": {
+						"options": [
+							"_self",
+							"_blank"
+						]
+					}
+				},
+				{
+					"slug": "navigation_menu",
+					"label": "Navigation menu",
+					"type": "string",
+					"defaultValue": "primary"
+				}
+			]
+		},
+		{
+			"slug": "footers",
+			"label": "Footers",
+			"labelSingular": "Footer",
+			"description": "Site footer chrome. The template select chooses the Astro footer component.",
+			"supports": [
+				"drafts",
+				"revisions"
+			],
+			"routable": false,
+			"group": "Site",
+			"fields": [
+				{
+					"slug": "template",
+					"label": "Template",
+					"type": "select",
+					"required": true,
+					"defaultValue": "clinic",
+					"validation": {
+						"options": [
+							"clinic"
+						]
+					}
+				},
+				{
+					"slug": "contact",
+					"label": "Contact",
+					"type": "text"
+				},
+				{
+					"slug": "linkedin",
+					"label": "LinkedIn",
+					"type": "string"
+				},
+				{
+					"slug": "facebook",
+					"label": "Facebook",
+					"type": "string"
+				},
+				{
+					"slug": "youtube",
+					"label": "YouTube",
+					"type": "string"
+				},
+				{
+					"slug": "instagram",
+					"label": "Instagram",
+					"type": "string"
+				},
+				{
+					"slug": "pinterest",
+					"label": "Pinterest",
+					"type": "string"
+				},
+				{
+					"slug": "locations",
+					"label": "Locations",
+					"type": "json"
+				},
+				{
+					"slug": "badges",
+					"label": "Badges",
+					"type": "json"
+				},
+				{
+					"slug": "find_us_menu",
+					"label": "Find us menu",
+					"type": "string",
+					"defaultValue": "footer_find_us"
+				},
+				{
+					"slug": "legal_menu",
+					"label": "Legal menu",
+					"type": "string",
+					"defaultValue": "footer_legal"
+				},
+				{
+					"slug": "copyright_name",
+					"label": "Copyright name",
+					"type": "string",
+					"defaultValue": "Centeno-Schultz Clinic"
+				}
+			]
+		},
+		{
+			"slug": "landing_pages",
+			"label": "Landing Pages",
+			"labelSingular": "Landing Page",
+			"description": "Landing pages. The template select chooses the Astro page component.",
+			"supports": [
+				"drafts",
+				"revisions",
+				"seo",
+				"search"
+			],
+			"routable": true,
+			"urlPattern": "/{slug}",
+			"titleField": "title",
+			"fields": [
+				{
+					"slug": "template",
+					"label": "Template",
+					"type": "select",
+					"required": true,
+					"defaultValue": "clinic",
+					"validation": {
+						"options": [
+							"clinic"
+						]
+					}
+				},
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "hero_image",
+					"label": "Hero image",
+					"type": "string"
+				},
+				{
+					"slug": "hero_heading",
+					"label": "Hero heading",
+					"type": "string",
+					"searchable": true
+				},
+				{
+					"slug": "hero_subheading",
+					"label": "Hero subheading",
+					"type": "text"
+				},
+				{
+					"slug": "candidate_label",
+					"label": "Candidate button label",
+					"type": "string",
+					"defaultValue": "Am I a Candidate?"
+				},
+				{
+					"slug": "candidate_url",
+					"label": "Candidate button URL",
+					"type": "string",
+					"defaultValue": "/candidate-form/"
+				}
+			]
 		}
 	],
 	"menus": [
 		{
 			"name": "primary",
 			"label": "Primary Navigation",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Make an Appointment",
+					"url": "/candidate-form/"
+				},
+				{
+					"type": "custom",
+					"label": "Areas Treated",
+					"url": "#",
+					"children": [
+						{
+							"type": "custom",
+							"label": "Knee",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Hip",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Shoulder",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Back & Neck",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Hand & Wrist",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Elbow",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Foot & Ankle",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Facial Pain",
+							"url": "#"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "Specialty Areas",
+					"url": "#",
+					"children": [
+						{
+							"type": "custom",
+							"label": "Craniocervical Instability",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Trigeminal Neuralgia",
+							"url": "https://centenoschultz.com/condition/trigeminal-neuralgia/"
+						},
+						{
+							"type": "custom",
+							"label": "Peripheral Neuropathy",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Tenex Procedure",
+							"url": "https://centenoschultz.com/treatment/tenex-procedure/"
+						},
+						{
+							"type": "custom",
+							"label": "Ehlers-Danlos Syndrome (EDS)",
+							"url": "#"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "Procedures",
+					"url": "#",
+					"children": [
+						{
+							"type": "custom",
+							"label": "Looking for Stem Cell Therapy?",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Platelet-Rich Plasma",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Prolotherapy",
+							"url": "#"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "Ready for Next Steps?",
+					"url": "#",
+					"children": [
+						{
+							"type": "custom",
+							"label": "Candidate Form",
+							"url": "/candidate-form/"
+						},
+						{
+							"type": "custom",
+							"label": "Appointment Form",
+							"url": "/appointment/"
+						},
+						{
+							"type": "custom",
+							"label": "Telemedicine Consultation",
+							"url": "https://centenoschultz.com/telemedicine-consultation/"
+						},
+						{
+							"type": "custom",
+							"label": "Request an Info Packet",
+							"url": "https://centenoschultz.com/request-for-more-information/"
+						},
+						{
+							"type": "custom",
+							"label": "ProActive Membership",
+							"url": "https://centenoschultz.com/proactive/"
+						},
+						{
+							"type": "custom",
+							"label": "Looking for a Second Opinion?",
+							"url": "https://centenoschultz.com/second-opinion/"
+						},
+						{
+							"type": "custom",
+							"label": "Contact Us",
+							"url": "/contact/"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "Learning Material",
+					"url": "#",
+					"children": [
+						{
+							"type": "custom",
+							"label": "Blog",
+							"url": "https://centenoschultz.com/blog/"
+						},
+						{
+							"type": "custom",
+							"label": "eBook Library",
+							"url": "https://centenoschultz.com/regenexx-library/"
+						},
+						{
+							"type": "custom",
+							"label": "Webinars & Seminars",
+							"url": "https://centenoschultz.com/webinar-library/"
+						},
+						{
+							"type": "custom",
+							"label": "Published Research Articles",
+							"url": "https://centenoschultz.com/published-research-articles/"
+						},
+						{
+							"type": "custom",
+							"label": "Knee Pain Location Chart",
+							"url": "https://centenoschultz.com/knee-pain-location-chart/"
+						},
+						{
+							"type": "custom",
+							"label": "News and Updates",
+							"url": "https://centenoschultz.com/news/"
+						},
+						{
+							"type": "custom",
+							"label": "Procedures We Help Our Patients Avoid",
+							"url": "#"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "Results",
+					"url": "#",
+					"children": [
+						{
+							"type": "custom",
+							"label": "Outcome Data",
+							"url": "/patient-outcome-safety-data-statistics/"
+						},
+						{
+							"type": "custom",
+							"label": "Before & After MRI",
+							"url": "/before-after-mri-library/"
+						},
+						{
+							"type": "custom",
+							"label": "Patient Testimonials",
+							"url": "https://centenoschultz.com/patient-testimonials/"
+						},
+						{
+							"type": "custom",
+							"label": "Centeno Schultz Clinic Reviews",
+							"url": "https://centenoschultz.com/centeno-schultz-clinic-reviews/"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "Aesthetic Treatments",
+					"url": "#",
+					"children": [
+						{
+							"type": "custom",
+							"label": "Skin & Hair",
+							"url": "https://centenoschultz.com/aesthetic-treatments-prp-skin-hair/"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "Physical Therapy Services",
+					"url": "#",
+					"children": [
+						{
+							"type": "custom",
+							"label": "Physical Therapy",
+							"url": "/physical-therapy/"
+						},
+						{
+							"type": "custom",
+							"label": "Refer a Friend",
+							"url": "/refer-a-friend/"
+						},
+						{
+							"type": "custom",
+							"label": "Mark Reilly, PT, MS, CGIMS",
+							"url": "https://centenoschultz.com/our-staff/mark-reilly-ms-pt-ims-p/"
+						},
+						{
+							"type": "custom",
+							"label": "Intramuscular Stimulation (IMS)",
+							"url": "/physical-therapy/intramuscular-stimulation/"
+						},
+						{
+							"type": "custom",
+							"label": "Cupping Therapy",
+							"url": "https://centenoschultz.com/treatment/cupping-therapy/"
+						},
+						{
+							"type": "custom",
+							"label": "Blood Flow Restriction Therapy",
+							"url": "https://centenoschultz.com/treatment/blood-flow-restriction-therapy/"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "Other Resources",
+					"url": "#",
+					"children": [
+						{
+							"type": "custom",
+							"label": "New Patient Forms",
+							"url": "https://centenoschultz.com/new-patient-forms/"
+						},
+						{
+							"type": "custom",
+							"label": "Regenexx Corporate",
+							"url": "https://centenoschultz.com/regenexx-corporate/"
+						},
+						{
+							"type": "custom",
+							"label": "Supplement Store",
+							"url": "https://centenoschultz.myshopify.com/"
+						},
+						{
+							"type": "custom",
+							"label": "Fellowships @ CSC",
+							"url": "https://centenoschultz.com/the-centeno-schultz-interventional-orthopedic-fellowships/"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "About Us",
+					"url": "#",
+					"children": [
+						{
+							"type": "custom",
+							"label": "News And Updates",
+							"url": "https://centenoschultz.com/news-and-blogs/"
+						},
+						{
+							"type": "custom",
+							"label": "Meet Our Doctors",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Want to Refer Someone?",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Locations",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Our Approach",
+							"url": "#"
+						},
+						{
+							"type": "custom",
+							"label": "Clinical Studies",
+							"url": "https://centenoschultz.com/clinical-studies/"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "footer_product",
+			"label": "Footer: Product",
 			"items": [
 				{
 					"type": "custom",
@@ -284,30 +969,77 @@
 			]
 		},
 		{
-			"name": "footer_product",
-			"label": "Footer: Product",
-			"items": [
-				{ "type": "custom", "label": "Features", "url": "/#features" },
-				{ "type": "custom", "label": "Pricing", "url": "/pricing" },
-				{ "type": "custom", "label": "Contact", "url": "/contact" }
-			]
-		},
-		{
 			"name": "footer_company",
 			"label": "Footer: Company",
 			"items": [
-				{ "type": "custom", "label": "Home", "url": "/" },
-				{ "type": "custom", "label": "Features", "url": "/#features" },
-				{ "type": "custom", "label": "Contact", "url": "/contact" }
+				{
+					"type": "custom",
+					"label": "Home",
+					"url": "/"
+				},
+				{
+					"type": "custom",
+					"label": "Features",
+					"url": "/#features"
+				},
+				{
+					"type": "custom",
+					"label": "Contact",
+					"url": "/contact"
+				}
 			]
 		},
 		{
 			"name": "footer_support",
 			"label": "Footer: Support",
 			"items": [
-				{ "type": "custom", "label": "Pricing", "url": "/pricing" },
-				{ "type": "custom", "label": "Contact", "url": "/contact" },
-				{ "type": "custom", "label": "Email", "url": "mailto:hello@acme.example" }
+				{
+					"type": "custom",
+					"label": "Pricing",
+					"url": "/pricing"
+				},
+				{
+					"type": "custom",
+					"label": "Contact",
+					"url": "/contact"
+				},
+				{
+					"type": "custom",
+					"label": "Email",
+					"url": "mailto:hello@acme.example"
+				}
+			]
+		},
+		{
+			"name": "footer_find_us",
+			"label": "Footer: Find Us",
+			"items": [
+				{
+					"type": "custom",
+					"label": "PRP Denver",
+					"url": "https://centenoschultz.com/treatment/platelet-rich-plasma-prp-injections/"
+				},
+				{
+					"type": "custom",
+					"label": "Prolotherapy Denver",
+					"url": "https://centenoschultz.com/treatment/prolotherapy-injections/"
+				}
+			]
+		},
+		{
+			"name": "footer_legal",
+			"label": "Footer: Legal",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Privacy",
+					"url": "/privacy-policy-2/"
+				},
+				{
+					"type": "custom",
+					"label": "Terms",
+					"url": "/notices-privacy-practices/"
+				}
 			]
 		}
 	],
@@ -512,6 +1244,79 @@
 							"centered": true
 						}
 					]
+				}
+			}
+		],
+		"headers": [
+			{
+				"id": "clinic",
+				"slug": "clinic",
+				"status": "published",
+				"data": {
+					"template": "clinic",
+					"phone": "303-429-6448",
+					"phone_href": "tel:13034296448",
+					"appointment_label": "Make an Appointment",
+					"appointment_url": "/appointment/",
+					"appointment_target": "_self",
+					"navigation_menu": "primary"
+				}
+			}
+		],
+		"footers": [
+			{
+				"id": "clinic",
+				"slug": "clinic",
+				"status": "published",
+				"data": {
+					"template": "clinic",
+					"contact": "303-429-6448\n303-429-6373\ninfo@centenoschultz.com\nOffice hours: 7am – 5pm",
+					"linkedin": "https://www.linkedin.com/company/27099644/",
+					"facebook": "https://www.facebook.com/centenoschultzclinic/?fref=ts",
+					"youtube": "https://www.youtube.com/user/Regenexx",
+					"instagram": "https://www.instagram.com/centenoschultzclinic/",
+					"pinterest": "https://www.pinterest.com/centenoschultzclinic/",
+					"locations": [
+						{
+							"name": "Broomfield",
+							"url": "https://centenoschultz.com/locations/broomfield/",
+							"address": "403 Summit Blvd\nSuite 201\nBroomfield, CO 80021"
+						},
+						{
+							"name": "Colorado Springs",
+							"url": "/locations/colorado-springs/",
+							"address": "5815 Mark Dabling Blvd\nColorado Springs, CO 80919"
+						}
+					],
+					"badges": [
+						{
+							"image": "/brand/logo-iof-member.png",
+							"alt": "Interventional Orthobiologics Foundation Member"
+						},
+						{
+							"image": "/brand/logo-bbb.png",
+							"alt": "Better Business Bureau A+ Rating"
+						}
+					],
+					"find_us_menu": "footer_find_us",
+					"legal_menu": "footer_legal",
+					"copyright_name": "Centeno-Schultz Clinic"
+				}
+			}
+		],
+		"landing_pages": [
+			{
+				"id": "home",
+				"slug": "home",
+				"status": "published",
+				"data": {
+					"template": "clinic",
+					"title": "Regenexx Colorado - Centeno-Schultz Clinic",
+					"hero_image": "https://centenoschultz.com/wp-content/uploads/MicrosoftTeams-image-1.jpg",
+					"hero_heading": "Centeno-Schultz Clinic",
+					"hero_subheading": "The Standard in Non-Surgical Orthopedic Care Since 2005",
+					"candidate_label": "Am I a Candidate?",
+					"candidate_url": "/candidate-form/"
 				}
 			}
 		]
