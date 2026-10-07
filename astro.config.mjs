@@ -1,15 +1,24 @@
-import node from "@astrojs/node";
+import { fileURLToPath } from "node:url";
 import react from "@astrojs/react";
+import vercel from "@astrojs/vercel";
 import icon from "astro-iconset";
 import { defineConfig, fontProviders } from "astro/config";
-import emdash, { local } from "emdash/astro";
-import { sqlite } from "emdash/db";
+import emdash from "emdash/astro";
+import { postgres, sqlite } from "emdash/db";
+
+const databaseUrl = process.env.DATABASE_URL?.replace(/^"|"$/g, "");
+const blobStorageEntry = fileURLToPath(
+	new URL("./src/storage/vercel-blob.ts", import.meta.url),
+).replaceAll("\\", "/");
 
 export default defineConfig({
 	output: "server",
-	adapter: node({
-		mode: "standalone",
-	}),
+	adapter: vercel(),
+	session: {
+		driver: {
+			entrypoint: new URL("./src/session/postgres-driver.ts", import.meta.url),
+		},
+	},
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,
@@ -41,11 +50,17 @@ export default defineConfig({
 			},
 		}),
 		emdash({
-			database: sqlite({ url: "file:./data.db" }),
-			storage: local({
-				directory: "./uploads",
-				baseUrl: "/_emdash/api/media/file",
-			}),
+			database: databaseUrl
+				? postgres({
+						connectionString: databaseUrl,
+						pool: { min: 0, max: 1 },
+						migrationConnectionStringEnv: "DATABASE_URL",
+					})
+				: sqlite({ url: "file:./data.db" }),
+			storage: {
+				entrypoint: blobStorageEntry,
+				config: {},
+			},
 		}),
 	],
 	fonts: [

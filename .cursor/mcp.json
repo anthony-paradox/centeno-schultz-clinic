@@ -1,8 +1,16 @@
 {
-	"mcpServers": {
-		"emdash-docs": {
-			"type": "http",
-			"url": "https://docs.emdashcms.com/mcp"
-		}
-	}
+  "mcpServers": {
+    "emdash-docs": {
+      "type": "http",
+      "url": "https://docs.emdashcms.com/mcp"
+    },
+    "graft": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@nanonets/graft",
+        "mcp"
+      ]
+    }
+  }
 }
