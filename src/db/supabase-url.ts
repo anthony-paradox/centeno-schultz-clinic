@@ -1,14 +1,16 @@
 const strip = (value: string | undefined) => value?.replace(/^"|"$/g, "");
 
 /**
- * pg currently treats require, prefer, and verify-ca as verify-full, and warns
- * that those aliases will change. Keep today's certificate check explicit.
+ * Supavisor's certificate chain is rejected by Node as self-signed when
+ * sslmode is verify-full. pg's no-verify mode keeps the connection encrypted
+ * and skips that check.
  */
-function useVerifyFullSsl(connectionString: string): string {
-	return connectionString.replace(
-		/([?&])sslmode=(?:prefer|require|verify-ca)(?=&|#|$)/gi,
-		"$1sslmode=verify-full",
-	);
+function useNoVerifySsl(connectionString: string): string {
+	if (/[?&]sslmode=/i.test(connectionString)) {
+		return connectionString.replace(/([?&])sslmode=[^&#]*/gi, "$1sslmode=no-verify");
+	}
+	const joiner = connectionString.includes("?") ? "&" : "?";
+	return `${connectionString}${joiner}sslmode=no-verify`;
 }
 
 /**
@@ -21,7 +23,7 @@ export function supabaseConnectionString(): string | undefined {
 	const raw = strip(process.env.POSTGRES_URL_NON_POOLING);
 	if (!raw) return undefined;
 
-	const connectionString = useVerifyFullSsl(raw);
+	const connectionString = useNoVerifySsl(raw);
 	if (process.env.POSTGRES_URL_NON_POOLING !== connectionString) {
 		process.env.POSTGRES_URL_NON_POOLING = connectionString;
 	}
