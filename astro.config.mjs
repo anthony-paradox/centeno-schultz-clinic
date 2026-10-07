@@ -61,6 +61,8 @@ export default defineConfig({
 				entrypoint: blobStorageEntry,
 				config: {},
 			},
+			// Bearer auth uses EMDASH_MCP_TOKEN from .env. See .cursor/mcp.json.
+			mcp: true,
 		}),
 	],
 	fonts: [

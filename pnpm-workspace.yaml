@@ -13,3 +13,8 @@ minimumReleaseAgeExclude:
   - emdash
   - "@emdash-cms/*"
 blockExoticSubdeps: true
+
+# sanitize-html >=2.17.6 require()s ESM-only htmlparser2@12, which Vercel's
+# function loader rejects with ERR_REQUIRE_ESM.
+overrides:
+  sanitize-html: 2.17.5
